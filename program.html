@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Subscribe to DEV@Deakin</title>
+    <style>
+        body {
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            background-color: #bcbbbb;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container p{
+           font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.1s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+         button[type="submit"]:active{
+            background-color: #333; 
+         }
+    </style>
+</head>
+
+<body>
+    <h1>Welcome to DEV@Deakin!</h1>
+    <div class="container">
+        <p>Subscribe to our platform:</p>
+        <form id="subscribe-form">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <button type="submit">Subscribe</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("subscribe-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const emailInput = document.getElementById("email");
+            const newSubscriberEmail = emailInput.value; // Get the entered email
+
+            // Call a function to send the welcome email
+            sendWelcomeEmail(newSubscriberEmail);
+
+            // Clear the input field after sending
+            emailInput.value = "";
+        });
+
+        function sendWelcomeEmail(subscriberEmail) {
+            // Your email sending logic here
+            // You can use the provided Node.js or Python code examples for sending emails
+            const mailgunDomain = "sandboxc1d07afd5e8d4597bba293691f02e0c1.mailgun.org";
+            const apiKey = "key-394bd83d7ed7eab598cbed157fd0f6c7";
+            const endpoint = `https://api.mailgun.net/v3/${mailgunDomain}/messages`;
+
+            const data = {
+                from: `Excited User <rakshit4880.be@chitkara.edu.in>`,
+                to: subscriberEmail,
+                subject: "Welcome to DEV@Deakin!",
+                text: "Thank you for joining DEV@Deakin! We're excited to have you on board."
+            };
+
+            axios.post(endpoint, data, {
+                auth: {
+                    username: 'api',
+                    password: apiKey
+                }
+            })
+                .then(response => {
+                    console.log("Welcome email sent successfully!");
+                })
+                .catch(error => {
+                    console.error("Failed to send welcome email:", error);
+                });
+
+        }
+    </script>
+</body>
+
+</html>
